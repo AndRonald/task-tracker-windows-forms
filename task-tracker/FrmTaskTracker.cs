@@ -1,8 +1,8 @@
 namespace task_tracker
 {
-    public partial class Form1 : Form
+    public partial class FrmTaskTracker : Form
     {
-        public Form1()
+        public FrmTaskTracker()
         {
             InitializeComponent();
         }
