@@ -11,8 +11,8 @@ namespace task_tracker.Json
                                                         "Dados",
                                                         "task.json");
 
-        
-        public List<task_tracker.Entities.Task> AllTaks() 
+
+        public List<task_tracker.Entities.Task> AllTaks()
         {
             if (!File.Exists(_archive))
                 return new List<task_tracker.Entities.Task>();
@@ -25,7 +25,7 @@ namespace task_tracker.Json
             return JsonConvert.DeserializeObject<List<task_tracker.Entities.Task>>(json) ?? new List<task_tracker.Entities.Task>();
         }
 
-        private void Save(List<task_tracker.Entities.Task> task) 
+        private void Save(List<task_tracker.Entities.Task> task)
         {
             string json = JsonConvert.SerializeObject(
                 task,
@@ -35,12 +35,12 @@ namespace task_tracker.Json
             File.WriteAllText(_archive, json);
         }
 
-        public bool AddTask(task_tracker.Entities.Task task) 
+        public bool AddTask(task_tracker.Entities.Task task)
         {
             var tasks = AllTaks();
 
-            task.Id = tasks.Count == 0 
-                ? 1 
+            task.Id = tasks.Count == 0
+                ? 1
                 : tasks.Max(x => x.Id) + 1;
 
             tasks.Add(task);
@@ -53,6 +53,19 @@ namespace task_tracker.Json
                 return true;
 
             return false;
+        }
+
+        public Entities.Task? GetTaskById(int id)
+        {
+            var tasks = AllTaks();
+
+            if (tasks.Count == 0) return null;
+
+            var task = tasks.Find(x => x.Id == id);
+
+            if (task == null) return null;
+
+            return task;
         }
     }
 }

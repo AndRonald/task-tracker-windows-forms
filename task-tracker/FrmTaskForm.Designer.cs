@@ -28,23 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
+            dgvDados = new DataGridView();
             button4 = new Button();
-            lblEditTask = new Button();
+            btnEditTask = new Button();
             btnCallAddTask = new Button();
-            button1 = new Button();
+            btnAllTasks = new Button();
             lblTaskTracker = new Label();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvDados).BeginInit();
             SuspendLayout();
             // 
-            // dataGridView1
+            // dgvDados
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 86);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(540, 188);
-            dataGridView1.TabIndex = 12;
+            dgvDados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDados.Location = new Point(12, 86);
+            dgvDados.Name = "dgvDados";
+            dgvDados.RowHeadersWidth = 51;
+            dgvDados.Size = new Size(540, 188);
+            dgvDados.TabIndex = 12;
             // 
             // button4
             // 
@@ -55,14 +55,15 @@
             button4.Text = "delete";
             button4.UseVisualStyleBackColor = true;
             // 
-            // lblEditTask
+            // btnEditTask
             // 
-            lblEditTask.Location = new Point(308, 398);
-            lblEditTask.Name = "lblEditTask";
-            lblEditTask.Size = new Size(94, 29);
-            lblEditTask.TabIndex = 10;
-            lblEditTask.Text = "edit";
-            lblEditTask.UseVisualStyleBackColor = true;
+            btnEditTask.Location = new Point(308, 398);
+            btnEditTask.Name = "btnEditTask";
+            btnEditTask.Size = new Size(94, 29);
+            btnEditTask.TabIndex = 10;
+            btnEditTask.Text = "edit";
+            btnEditTask.UseVisualStyleBackColor = true;
+            btnEditTask.Click += btnEditTask_Click;
             // 
             // btnCallAddTask
             // 
@@ -74,14 +75,15 @@
             btnCallAddTask.UseVisualStyleBackColor = true;
             btnCallAddTask.Click += btnCallAddTask_Click;
             // 
-            // button1
+            // btnAllTasks
             // 
-            button1.Location = new Point(12, 398);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 8;
-            button1.Text = "all-task";
-            button1.UseVisualStyleBackColor = true;
+            btnAllTasks.Location = new Point(12, 398);
+            btnAllTasks.Name = "btnAllTasks";
+            btnAllTasks.Size = new Size(94, 29);
+            btnAllTasks.TabIndex = 8;
+            btnAllTasks.Text = "all-task";
+            btnAllTasks.UseVisualStyleBackColor = true;
+            btnAllTasks.Click += btnAllTasks_Click;
             // 
             // lblTaskTracker
             // 
@@ -97,26 +99,26 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(565, 450);
-            Controls.Add(dataGridView1);
+            Controls.Add(dgvDados);
             Controls.Add(button4);
-            Controls.Add(lblEditTask);
+            Controls.Add(btnEditTask);
             Controls.Add(btnCallAddTask);
-            Controls.Add(button1);
+            Controls.Add(btnAllTasks);
             Controls.Add(lblTaskTracker);
             Name = "FrmTaskForm";
             Text = "FrmTaskForm";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvDados).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private DataGridView dataGridView1;
+        private DataGridView dgvDados;
         private Button button4;
-        private Button lblEditTask;
+        private Button btnEditTask;
         private Button btnCallAddTask;
-        private Button button1;
+        private Button btnAllTasks;
         private Label lblTaskTracker;
     }
 }

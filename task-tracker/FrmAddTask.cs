@@ -36,7 +36,7 @@ namespace task_tracker
         {
             var task = new task_tracker.Entities.Task()
             {
-                Description = txtDescriptionTask.SelectedText,
+                Description = txtDescriptionTask.Text,
                 Status = (Status)cmbTaskStatus.SelectedIndex,
                 CreatedAt = DateTime.Now,
                 UpdateAt = DateTime.Now,
