@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TaskApi.Context;
+using TaskApi.Repositories;
 
 namespace TaskApi.Controllers
 {
@@ -8,19 +8,19 @@ namespace TaskApi.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private readonly TaskDbContext _taskDbContext;
+        private readonly ITaskRepository _taskRepository;
 
-        public TasksController(TaskDbContext context) 
+        public TasksController(ITaskRepository repository) 
         {
-            _taskDbContext = context;
+            _taskRepository = repository;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Models.Task>> GetAllTasks() 
+        public ActionResult<IEnumerable<Models.Task>> AllTasks() 
         {
-            var tasks = _taskDbContext?.Tasks?.ToList();
+            var tasks = _taskRepository.GetAllTasks();
 
-            if (tasks?.Count <= 0)
+            if (tasks is null)
                 return NotFound();
 
             return Ok(tasks);
@@ -29,13 +29,10 @@ namespace TaskApi.Controllers
         [HttpGet("{id:int}", Name = "ObterTask")]
         public ActionResult<Models.Task> TaskById(int id) 
         {
-            if (id <= 0)
-                return NotFound($"Task of id {id}, not found!");
+            var task = _taskRepository.GetTaskById(id);
 
-            var task = _taskDbContext?.Tasks?.Find(id);
-
-            if (task == null)
-                return NotFound($"Task of id {id}, not found!");
+            if (task is null)
+                return NotFound();
 
             return Ok(task);
         }
@@ -46,10 +43,9 @@ namespace TaskApi.Controllers
             if (task is null)
                 return BadRequest();
 
-            _taskDbContext?.Tasks?.Add(task);
-            _taskDbContext?.SaveChanges();
+            var newTask = _taskRepository.CreateTask(task);
             
-            return CreatedAtRoute("ObterTask", new { Id = task.Id}, task);
+            return CreatedAtRoute("ObterTask", new { Id = newTask.Id}, newTask);
         }
 
         [HttpPut("{id:int}")]
@@ -58,25 +54,23 @@ namespace TaskApi.Controllers
             if (id <= 0 || id != task.Id)
                 return BadRequest();
 
-            _taskDbContext.Entry(task).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _taskDbContext.SaveChanges();
+            var updatedTask = _taskRepository.PutTask(task);
 
-            return Ok(task);
+            return Ok(updatedTask);
                 
         }
 
         [HttpDelete("{id:int}")]
         public ActionResult<Models.Task> DeleteTask(int id)
         {
-            var task = _taskDbContext?.Tasks?.FirstOrDefault(t => t.Id == id);
+            var task = _taskRepository.GetTaskById(id);
 
             if (task == null || id <= 0)
                 return NotFound($"Task of {id}, not found!");
 
-            _taskDbContext?.Tasks?.Remove(task);
-            _taskDbContext?.SaveChanges();
+            var deletedTask = _taskRepository.DeleteTaskById(id);
 
-            return task;
+            return deletedTask;
         }
     }
 }

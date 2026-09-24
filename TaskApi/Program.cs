@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TaskApi.Context;
+using TaskApi.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Services.AddSwaggerGen();
 string? connetion = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<TaskDbContext>(options => options.UseSqlServer(connetion));
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
 var app = builder.Build();
 
