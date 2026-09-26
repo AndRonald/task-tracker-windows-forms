@@ -10,17 +10,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using task_tracker.Entities.Enums;
-using task_tracker.Json;
 
 namespace task_tracker
 {
     public partial class FrmAddTask : Form
     {
-        private readonly TaskRepository _taskRepository = new TaskRepository();
-        public FrmAddTask()
+        private readonly AccessApiService.AccessApiService _api;
+        private readonly HttpClient _client;
+        public FrmAddTask(AccessApiService.AccessApiService accessApi, HttpClient http)
         {
             InitializeComponent();
             LoadStatusWithDescription();
+            _api = accessApi;
+            _client = http;
         }
 
         private void LoadStatusWithDescription()
@@ -32,28 +34,29 @@ namespace task_tracker
             cmbTaskStatus.SelectedIndex = 0;
         }
 
-        private void btnAddTask_Click(object sender, EventArgs e)
+        private async void btnAddTask_Click(object sender, EventArgs e)
         {
-            var task = new task_tracker.Entities.Task()
-            {
-                Description = txtDescriptionTask.Text,
-                Status = (Status)cmbTaskStatus.SelectedIndex,
-                CreatedAt = DateTime.Now,
-                UpdateAt = DateTime.Now,
-            };
+            Entities.Task task = await _api.CreateTask(new Entities.Task 
+                                       {
+                                          Description = txtDescriptionTask.Text,
+                                          Status = (Status)cmbTaskStatus.SelectedIndex,
+                                          CreatedAt = DateTime.Now,
+                                          UpdatedAt = DateTime.Now,
+                                       });
 
-            bool result = _taskRepository.AddTask(task);
+            if (task != null)
+                MessageBox.Show("Adicionado com sucesso", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+                MessageBox.Show("Ocorreu um erro, não foi possível completar sua tarefa.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //bool result = _taskRepository.AddTask(task);
 
-            if (!result)
-                MessageBox.Show("Não foi possível concluir a operação",
-                    "Erro",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+            //if (!result)
+            //    MessageBox.Show("Não foi possível concluir a operação",
+            //        "Erro",
+            //        MessageBoxButtons.OK,
+            //        MessageBoxIcon.Information);
 
-            MessageBox.Show("Adicionado com sucesso",
-                    "Sucesso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+
         }
     }
 }

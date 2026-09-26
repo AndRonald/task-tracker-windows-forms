@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             dgvDados = new DataGridView();
-            button4 = new Button();
+            btnDeleteTask = new Button();
             btnEditTask = new Button();
             btnCallAddTask = new Button();
             btnAllTasks = new Button();
@@ -40,26 +40,30 @@
             // dgvDados
             // 
             dgvDados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDados.Location = new Point(12, 86);
+            dgvDados.Location = new Point(10, 64);
+            dgvDados.Margin = new Padding(3, 2, 3, 2);
             dgvDados.Name = "dgvDados";
             dgvDados.RowHeadersWidth = 51;
-            dgvDados.Size = new Size(540, 188);
+            dgvDados.Size = new Size(472, 141);
             dgvDados.TabIndex = 12;
             // 
-            // button4
+            // btnDeleteTask
             // 
-            button4.Location = new Point(456, 398);
-            button4.Name = "button4";
-            button4.Size = new Size(94, 29);
-            button4.TabIndex = 11;
-            button4.Text = "delete";
-            button4.UseVisualStyleBackColor = true;
+            btnDeleteTask.Location = new Point(399, 298);
+            btnDeleteTask.Margin = new Padding(3, 2, 3, 2);
+            btnDeleteTask.Name = "btnDeleteTask";
+            btnDeleteTask.Size = new Size(82, 22);
+            btnDeleteTask.TabIndex = 11;
+            btnDeleteTask.Text = "delete";
+            btnDeleteTask.UseVisualStyleBackColor = true;
+            btnDeleteTask.Click += btnDeleteTask_Click;
             // 
             // btnEditTask
             // 
-            btnEditTask.Location = new Point(308, 398);
+            btnEditTask.Location = new Point(270, 298);
+            btnEditTask.Margin = new Padding(3, 2, 3, 2);
             btnEditTask.Name = "btnEditTask";
-            btnEditTask.Size = new Size(94, 29);
+            btnEditTask.Size = new Size(82, 22);
             btnEditTask.TabIndex = 10;
             btnEditTask.Text = "edit";
             btnEditTask.UseVisualStyleBackColor = true;
@@ -67,9 +71,10 @@
             // 
             // btnCallAddTask
             // 
-            btnCallAddTask.Location = new Point(160, 398);
+            btnCallAddTask.Location = new Point(140, 298);
+            btnCallAddTask.Margin = new Padding(3, 2, 3, 2);
             btnCallAddTask.Name = "btnCallAddTask";
-            btnCallAddTask.Size = new Size(94, 29);
+            btnCallAddTask.Size = new Size(82, 22);
             btnCallAddTask.TabIndex = 9;
             btnCallAddTask.Text = "add";
             btnCallAddTask.UseVisualStyleBackColor = true;
@@ -77,9 +82,10 @@
             // 
             // btnAllTasks
             // 
-            btnAllTasks.Location = new Point(12, 398);
+            btnAllTasks.Location = new Point(10, 298);
+            btnAllTasks.Margin = new Padding(3, 2, 3, 2);
             btnAllTasks.Name = "btnAllTasks";
-            btnAllTasks.Size = new Size(94, 29);
+            btnAllTasks.Size = new Size(82, 22);
             btnAllTasks.TabIndex = 8;
             btnAllTasks.Text = "all-task";
             btnAllTasks.UseVisualStyleBackColor = true;
@@ -88,23 +94,24 @@
             // lblTaskTracker
             // 
             lblTaskTracker.AutoSize = true;
-            lblTaskTracker.Location = new Point(232, 23);
+            lblTaskTracker.Location = new Point(203, 17);
             lblTaskTracker.Name = "lblTaskTracker";
-            lblTaskTracker.Size = new Size(86, 20);
+            lblTaskTracker.Size = new Size(69, 15);
             lblTaskTracker.TabIndex = 7;
             lblTaskTracker.Text = "task-tracker";
             // 
             // FrmTaskForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(565, 450);
+            ClientSize = new Size(494, 338);
             Controls.Add(dgvDados);
-            Controls.Add(button4);
+            Controls.Add(btnDeleteTask);
             Controls.Add(btnEditTask);
             Controls.Add(btnCallAddTask);
             Controls.Add(btnAllTasks);
             Controls.Add(lblTaskTracker);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "FrmTaskForm";
             Text = "FrmTaskForm";
             ((System.ComponentModel.ISupportInitialize)dgvDados).EndInit();
@@ -115,7 +122,7 @@
         #endregion
 
         private DataGridView dgvDados;
-        private Button button4;
+        private Button btnDeleteTask;
         private Button btnEditTask;
         private Button btnCallAddTask;
         private Button btnAllTasks;

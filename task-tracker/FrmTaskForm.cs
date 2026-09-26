@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using task_tracker.Entities;
-using task_tracker.Json;
-
-namespace task_tracker
+﻿namespace task_tracker
 {
     public partial class FrmTaskForm : Form
     {
-        private readonly TaskRepository _taskRepository;
+        private readonly task_tracker.AccessApiService.AccessApiService _api;
+        private readonly HttpClient _httpClient;
         public FrmTaskForm()
         {
             InitializeComponent();
-            _taskRepository = new TaskRepository();
+            _httpClient = new HttpClient();
+            _api = new task_tracker.AccessApiService.AccessApiService(_httpClient);
         }
 
         private void FormatedGrid()
@@ -32,17 +22,21 @@ namespace task_tracker
 
         private void btnCallAddTask_Click(object sender, EventArgs e)
         {
-            var addTask = new FrmAddTask();
-            addTask.ShowDialog();
+            var callFrmAddTask = new FrmAddTask(_api, _httpClient);
+            callFrmAddTask.ShowDialog();
         }
 
-        private void btnAllTasks_Click(object sender, EventArgs e)
+        private async void btnAllTasks_Click(object sender, EventArgs e)
         {
             try
             {
-                List<task_tracker.Entities.Task> tasks = _taskRepository.AllTaks();
+                List<Entities.Task> tasks = await _api.GetAllTasks();
                 dgvDados.DataSource = tasks;
                 FormatedGrid();
+
+                //List<task_tracker.Entities.Task> tasks = 
+                //dgvDados.DataSource = tasks;
+                //FormatedGrid();
             }
             catch (Exception ex)
             {
@@ -50,24 +44,43 @@ namespace task_tracker
             }
         }
 
-        private void btnEditTask_Click(object sender, EventArgs e)
+        private async void btnEditTask_Click(object sender, EventArgs e)
         {
-            if(InputBox(out int taskCode))
+            if (InputBox(out int taskCode))
             {
-                try 
+                try
                 {
-                    var task = _taskRepository.GetTaskById(taskCode);
+                    Entities.Task task = await _api.GetTaskById(taskCode);
 
                     if (task is not null)
                     {
-                        var form = new FrmEditTask(task);
+                        var form = new FrmEditTask(task, _api);
                         form.ShowDialog();
                     }
-                       
+                    btnAllTasks.PerformClick();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("Error trying update task" + ex.Message);
+                }
+            }
+        }
+        private void btnDeleteTask_Click(object sender, EventArgs e)
+        {
+            if(InputBox(out int taskCode)) 
+            {
+                try
+                {
+                    var task = _api.GetTaskById(taskCode);
+
+                    if (task is not null)
+                        _api?.DeleteTask(task.Id);
+                    else
+                        MessageBox.Show("Tarefa não encontrada", "NotFound"); 
+                }
+                catch(Exception ex) 
+                {
+                    MessageBox.Show("Error trying delete task " + ex.Message);
                 }
             }
         }

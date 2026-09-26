@@ -38,56 +38,61 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(11, 215);
+            label2.Location = new Point(10, 161);
             label2.Name = "label2";
-            label2.Size = new Size(77, 20);
+            label2.Size = new Size(62, 15);
             label2.TabIndex = 9;
             label2.Text = "task status";
             // 
             // cmbTaskStatus
             // 
             cmbTaskStatus.FormattingEnabled = true;
-            cmbTaskStatus.Location = new Point(11, 251);
+            cmbTaskStatus.Location = new Point(10, 188);
+            cmbTaskStatus.Margin = new Padding(3, 2, 3, 2);
             cmbTaskStatus.Name = "cmbTaskStatus";
-            cmbTaskStatus.Size = new Size(151, 28);
+            cmbTaskStatus.Size = new Size(133, 23);
             cmbTaskStatus.TabIndex = 8;
             // 
             // btnAddTask
             // 
-            btnAddTask.Location = new Point(141, 360);
+            btnAddTask.Location = new Point(115, 275);
+            btnAddTask.Margin = new Padding(3, 2, 3, 2);
             btnAddTask.Name = "btnAddTask";
-            btnAddTask.Size = new Size(94, 29);
+            btnAddTask.Size = new Size(95, 22);
             btnAddTask.TabIndex = 7;
-            btnAddTask.Text = "add";
+            btnAddTask.Text = "updated task";
             btnAddTask.UseVisualStyleBackColor = true;
+            btnAddTask.Click += btnAddTask_Click;
             // 
             // txtDescriptionTask
             // 
-            txtDescriptionTask.Location = new Point(11, 98);
+            txtDescriptionTask.Location = new Point(10, 74);
+            txtDescriptionTask.Margin = new Padding(3, 2, 3, 2);
             txtDescriptionTask.Multiline = true;
             txtDescriptionTask.Name = "txtDescriptionTask";
-            txtDescriptionTask.Size = new Size(354, 102);
+            txtDescriptionTask.Size = new Size(310, 78);
             txtDescriptionTask.TabIndex = 6;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(11, 62);
+            label1.Location = new Point(10, 46);
             label1.Name = "label1";
-            label1.Size = new Size(128, 20);
+            label1.Size = new Size(102, 15);
             label1.TabIndex = 5;
             label1.Text = "describe your task";
             // 
             // FrmEditTask
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(377, 450);
+            ClientSize = new Size(330, 338);
             Controls.Add(label2);
             Controls.Add(cmbTaskStatus);
             Controls.Add(btnAddTask);
             Controls.Add(txtDescriptionTask);
             Controls.Add(label1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "FrmEditTask";
             Text = "FrmEditTask";
             ResumeLayout(false);
