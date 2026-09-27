@@ -43,7 +43,7 @@ namespace task_tracker.AccessApiService
         {
             var response = await _httpClient.GetAsync(GetItemUrl(id));
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<Entities.Task>();
+            return await response.Content.ReadFromJsonAsync<Entities.Task>() ?? new Entities.Task();
         }
 
         public async Task DeleteTask(int id) 

@@ -30,69 +30,80 @@
         {
             label2 = new Label();
             cmbTaskStatus = new ComboBox();
-            btnAddTask = new Button();
+            btnUpdateTask = new Button();
             txtDescriptionTask = new TextBox();
             label1 = new Label();
+            btnDeleteTask = new Button();
             SuspendLayout();
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(10, 161);
+            label2.Location = new Point(12, 149);
             label2.Name = "label2";
-            label2.Size = new Size(62, 15);
+            label2.Size = new Size(77, 20);
             label2.TabIndex = 9;
             label2.Text = "task status";
             // 
             // cmbTaskStatus
             // 
             cmbTaskStatus.FormattingEnabled = true;
-            cmbTaskStatus.Location = new Point(10, 188);
-            cmbTaskStatus.Margin = new Padding(3, 2, 3, 2);
+            cmbTaskStatus.Location = new Point(12, 172);
             cmbTaskStatus.Name = "cmbTaskStatus";
-            cmbTaskStatus.Size = new Size(133, 23);
+            cmbTaskStatus.Size = new Size(151, 28);
             cmbTaskStatus.TabIndex = 8;
             // 
-            // btnAddTask
+            // btnUpdateTask
             // 
-            btnAddTask.Location = new Point(115, 275);
-            btnAddTask.Margin = new Padding(3, 2, 3, 2);
-            btnAddTask.Name = "btnAddTask";
-            btnAddTask.Size = new Size(95, 22);
-            btnAddTask.TabIndex = 7;
-            btnAddTask.Text = "updated task";
-            btnAddTask.UseVisualStyleBackColor = true;
-            btnAddTask.Click += btnAddTask_Click;
+            btnUpdateTask.BackColor = SystemColors.Info;
+            btnUpdateTask.Location = new Point(12, 278);
+            btnUpdateTask.Name = "btnUpdateTask";
+            btnUpdateTask.Size = new Size(109, 29);
+            btnUpdateTask.TabIndex = 7;
+            btnUpdateTask.Text = "UPDATE";
+            btnUpdateTask.UseVisualStyleBackColor = false;
+            btnUpdateTask.Click += btnUpdateTask_Click;
             // 
             // txtDescriptionTask
             // 
-            txtDescriptionTask.Location = new Point(10, 74);
-            txtDescriptionTask.Margin = new Padding(3, 2, 3, 2);
+            txtDescriptionTask.Location = new Point(12, 32);
             txtDescriptionTask.Multiline = true;
             txtDescriptionTask.Name = "txtDescriptionTask";
-            txtDescriptionTask.Size = new Size(310, 78);
+            txtDescriptionTask.Size = new Size(452, 103);
             txtDescriptionTask.TabIndex = 6;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(10, 46);
+            label1.Location = new Point(12, 9);
             label1.Name = "label1";
-            label1.Size = new Size(102, 15);
+            label1.Size = new Size(128, 20);
             label1.TabIndex = 5;
             label1.Text = "describe your task";
             // 
+            // btnDeleteTask
+            // 
+            btnDeleteTask.BackColor = Color.IndianRed;
+            btnDeleteTask.ForeColor = SystemColors.ButtonHighlight;
+            btnDeleteTask.Location = new Point(370, 278);
+            btnDeleteTask.Name = "btnDeleteTask";
+            btnDeleteTask.Size = new Size(94, 29);
+            btnDeleteTask.TabIndex = 12;
+            btnDeleteTask.Text = "DELETE";
+            btnDeleteTask.UseVisualStyleBackColor = false;
+            btnDeleteTask.Click += btnDeleteTask_Click;
+            // 
             // FrmEditTask
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(330, 338);
+            ClientSize = new Size(476, 319);
+            Controls.Add(btnDeleteTask);
             Controls.Add(label2);
             Controls.Add(cmbTaskStatus);
-            Controls.Add(btnAddTask);
+            Controls.Add(btnUpdateTask);
             Controls.Add(txtDescriptionTask);
             Controls.Add(label1);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "FrmEditTask";
             Text = "FrmEditTask";
             ResumeLayout(false);
@@ -103,8 +114,9 @@
 
         private Label label2;
         private ComboBox cmbTaskStatus;
-        private Button btnAddTask;
+        private Button btnUpdateTask;
         private TextBox txtDescriptionTask;
         private Label label1;
+        private Button btnDeleteTask;
     }
 }

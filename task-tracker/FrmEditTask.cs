@@ -20,38 +20,54 @@ namespace task_tracker
         {
             InitializeComponent();
             _task = task;
-            LoadData();
-            LoadStatusWithDescription(_task);
             _api = api;
+            LoadData();
         }
-        private void LoadStatusWithDescription(Entities.Task _task)
+        private void LoadData()
         {
-            var statuses = EnumExtensions.EnumToList<Status>();
-            foreach (Status status in statuses)
+            var statusList = EnumExtensions.EnumToList<Status>();
+            foreach (Status status in statusList)
             {
                 cmbTaskStatus.Items.Add(EnumExtensions.GetDescription(status));
             }
-            //cmbTaskStatus.SelectedIndex = statuses.IndexOf(_task.Status);
-            cmbTaskStatus.Text = _task.Status.ToString();
-        }
-        public void LoadData()
-        {
+            cmbTaskStatus.SelectedIndex = statusList.IndexOf(_task.Status);
             txtDescriptionTask.Text = _task.Description;
-            //cmbTaskStatus.Text = _task.Status.ToString();
         }
-        private async void btnAddTask_Click(object sender, EventArgs e)
+        private async void btnUpdateTask_Click(object sender, EventArgs e)
         {
-            _task = new Entities.Task()
+            try
             {
-                Id = _task.Id,
-                Description = txtDescriptionTask.Text,
-                Status = (Status)cmbTaskStatus.SelectedIndex,
-                CreatedAt = _task.CreatedAt,
-                UpdatedAt = DateTime.UtcNow
-            };
+                _task = new Entities.Task()
+                {
+                    Id = _task.Id,
+                    Description = txtDescriptionTask.Text,
+                    Status = (Status)cmbTaskStatus.SelectedIndex,
+                    CreatedAt = _task.CreatedAt,
+                    UpdatedAt = DateTime.Now
+                };
 
-            await _api.UpdateTask(_task.Id, _task);
-            this.Close();
+                await _api.UpdateTask(_task.Id, _task);
+                this.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"Could not complete operation: {ex.Message}");
+            }
+        }
+        private void btnDeleteTask_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    _api?.DeleteTask(_task.Id);
+                    this.Close();
+                }
+            }
+            catch(Exception ex) 
+            {
+                MessageBox.Show($"Could not complete operation: {ex.Message}");
+            }
         }
     }
 }

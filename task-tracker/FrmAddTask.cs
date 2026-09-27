@@ -36,27 +36,27 @@ namespace task_tracker
 
         private async void btnAddTask_Click(object sender, EventArgs e)
         {
-            Entities.Task task = await _api.CreateTask(new Entities.Task 
-                                       {
-                                          Description = txtDescriptionTask.Text,
-                                          Status = (Status)cmbTaskStatus.SelectedIndex,
-                                          CreatedAt = DateTime.Now,
-                                          UpdatedAt = DateTime.Now,
-                                       });
+            try
+            {
+                var task = await _api.CreateTask(new Entities.Task
+                {
+                    Description = txtDescriptionTask.Text,
+                    Status = (Status)cmbTaskStatus.SelectedIndex,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
+                });
 
-            if (task != null)
-                MessageBox.Show("Adicionado com sucesso", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else
-                MessageBox.Show("Ocorreu um erro, não foi possível completar sua tarefa.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //bool result = _taskRepository.AddTask(task);
+                if (task.Id > 0)
+                    MessageBox.Show("To added task with success!", "success");
+                else
+                    MessageBox.Show("Could not complete operation", "fail");
 
-            //if (!result)
-            //    MessageBox.Show("Não foi possível concluir a operação",
-            //        "Erro",
-            //        MessageBoxButtons.OK,
-            //        MessageBoxIcon.Information);
-
-
+                this.Close();
+            }
+            catch (Exception ex) 
+            {
+                MessageBox.Show($"Could not complete operation: {ex.Message}");
+            }
         }
     }
 }

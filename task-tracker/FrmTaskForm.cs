@@ -1,4 +1,6 @@
-﻿namespace task_tracker
+﻿using static System.Net.Mime.MediaTypeNames;
+
+namespace task_tracker
 {
     public partial class FrmTaskForm : Form
     {
@@ -24,23 +26,24 @@
         {
             var callFrmAddTask = new FrmAddTask(_api, _httpClient);
             callFrmAddTask.ShowDialog();
+            btnAllTasks.PerformClick();
         }
 
         private async void btnAllTasks_Click(object sender, EventArgs e)
         {
             try
             {
-                List<Entities.Task> tasks = await _api.GetAllTasks();
-                dgvDados.DataSource = tasks;
-                FormatedGrid();
+                var tasks = await _api.GetAllTasks();
 
-                //List<task_tracker.Entities.Task> tasks = 
-                //dgvDados.DataSource = tasks;
-                //FormatedGrid();
+                if (tasks != null && tasks.Count > 0)
+                {
+                    dgvDados.DataSource = tasks;
+                    FormatedGrid();
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error when trying to recover tasks: " + ex.Message);
+                MessageBox.Show($"Could not complete operation: {ex.Message}");
             }
         }
 
@@ -50,41 +53,23 @@
             {
                 try
                 {
-                    Entities.Task task = await _api.GetTaskById(taskCode);
+                    var task = await _api.GetTaskById(taskCode);
 
-                    if (task is not null)
+                    if (task.Id > 0)
                     {
                         var form = new FrmEditTask(task, _api);
                         form.ShowDialog();
+                        btnAllTasks.PerformClick();
                     }
-                    btnAllTasks.PerformClick();
+                    else
+                        MessageBox.Show("Task does not exist!");
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error trying update task" + ex.Message);
+                    MessageBox.Show($"Could not complete operation: {ex.Message}");
                 }
             }
         }
-        private void btnDeleteTask_Click(object sender, EventArgs e)
-        {
-            if(InputBox(out int taskCode)) 
-            {
-                try
-                {
-                    var task = _api.GetTaskById(taskCode);
-
-                    if (task is not null)
-                        _api?.DeleteTask(task.Id);
-                    else
-                        MessageBox.Show("Tarefa não encontrada", "NotFound"); 
-                }
-                catch(Exception ex) 
-                {
-                    MessageBox.Show("Error trying delete task " + ex.Message);
-                }
-            }
-        }
-
         private bool InputBox(out int code)
         {
             string result = Microsoft.VisualBasic.Interaction.InputBox("please, write code of task", "input", "1");
@@ -96,6 +81,27 @@
 
             code = -1;
             return false;
+        }
+
+        private async void dgvDados_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                var task = await _api.GetTaskById(Convert.ToInt32(dgvDados["Id", e.RowIndex].Value));
+
+                if (task.Id > 0)
+                {
+                    var callEditForm = new FrmEditTask(task, _api);
+                    callEditForm.ShowDialog();
+                    btnAllTasks.PerformClick();
+                }
+                else
+                    MessageBox.Show("Task does not exist!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Could not complete operation: {ex.Message}");
+            }
         }
     }
 }

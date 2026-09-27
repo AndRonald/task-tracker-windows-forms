@@ -38,7 +38,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 49);
+            label1.Location = new Point(12, 9);
             label1.Name = "label1";
             label1.Size = new Size(128, 20);
             label1.TabIndex = 0;
@@ -46,26 +46,27 @@
             // 
             // txtDescriptionTask
             // 
-            txtDescriptionTask.Location = new Point(12, 85);
+            txtDescriptionTask.Location = new Point(12, 32);
             txtDescriptionTask.Multiline = true;
             txtDescriptionTask.Name = "txtDescriptionTask";
-            txtDescriptionTask.Size = new Size(354, 102);
+            txtDescriptionTask.Size = new Size(452, 102);
             txtDescriptionTask.TabIndex = 1;
             // 
             // btnAddTask
             // 
-            btnAddTask.Location = new Point(142, 347);
+            btnAddTask.BackColor = Color.PaleGreen;
+            btnAddTask.Location = new Point(12, 278);
             btnAddTask.Name = "btnAddTask";
-            btnAddTask.Size = new Size(94, 29);
+            btnAddTask.Size = new Size(109, 29);
             btnAddTask.TabIndex = 2;
-            btnAddTask.Text = "add";
-            btnAddTask.UseVisualStyleBackColor = true;
+            btnAddTask.Text = "TO ADD";
+            btnAddTask.UseVisualStyleBackColor = false;
             btnAddTask.Click += btnAddTask_Click;
             // 
             // cmbTaskStatus
             // 
             cmbTaskStatus.FormattingEnabled = true;
-            cmbTaskStatus.Location = new Point(12, 238);
+            cmbTaskStatus.Location = new Point(12, 170);
             cmbTaskStatus.Name = "cmbTaskStatus";
             cmbTaskStatus.Size = new Size(151, 28);
             cmbTaskStatus.TabIndex = 3;
@@ -73,7 +74,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(12, 202);
+            label2.Location = new Point(12, 147);
             label2.Name = "label2";
             label2.Size = new Size(77, 20);
             label2.TabIndex = 4;
@@ -83,7 +84,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(378, 450);
+            ClientSize = new Size(476, 319);
             Controls.Add(label2);
             Controls.Add(cmbTaskStatus);
             Controls.Add(btnAddTask);
