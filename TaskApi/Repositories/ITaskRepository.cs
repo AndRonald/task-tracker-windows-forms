@@ -1,11 +1,9 @@
-﻿namespace TaskApi.Repositories
+﻿using TaskApi.Repositories.Generic;
+using TaskEntity = TaskApi.Models.Task;
+
+namespace TaskApi.Repositories
 {
-    public interface ITaskRepository
+    public interface ITaskRepository : IRepository<TaskEntity>
     {
-        IEnumerable<Models.Task> GetAllTasks();
-        Models.Task GetTaskById(int id);
-        Models.Task CreateTask(Models.Task taks);
-        Models.Task PutTask(Models.Task task);
-        Models.Task DeleteTaskById(int id);
     }
 }
