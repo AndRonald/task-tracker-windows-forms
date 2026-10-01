@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TaskApi.Context;
 using TaskApi.Repositories;
+using TaskApi.Repositories.Generic;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,10 +12,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-string? connetion = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<TaskDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDbContext<TaskDbContext>(options => options.UseSqlServer(connetion));
+
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 

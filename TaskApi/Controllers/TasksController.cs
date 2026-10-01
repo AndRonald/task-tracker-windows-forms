@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskApi.Repositories;
+using TaskApi.Repositories.Generic;
+using TaskEntity = TaskApi.Models.Task;
 
 namespace TaskApi.Controllers
 {
@@ -8,67 +10,73 @@ namespace TaskApi.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private readonly ITaskRepository _taskRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public TasksController(ITaskRepository repository) 
+        public TasksController(IUnitOfWork unitOfWork) 
         {
-            _taskRepository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Models.Task>> AllTasks() 
+        public async Task<ActionResult<IEnumerable<TaskEntity>>> AllTasks() 
         {
-            var tasks = _taskRepository.GetAllTasks();
+            var tasks = await _unitOfWork.TaskRepository.GetAllAsync();
 
             if (tasks is null)
-                return NotFound();
+                return NotFound("Tasks not found!");
 
             return Ok(tasks);
         }
 
         [HttpGet("{id:int}", Name = "ObterTask")]
-        public ActionResult<Models.Task> TaskById(int id) 
+        public async Task<ActionResult<TaskEntity>> TaskById(int id) 
         {
-            var task = _taskRepository.GetTaskById(id);
+            var task = await _unitOfWork.TaskRepository.GetAsync(p => p.Id == id);
 
             if (task is null)
-                return NotFound();
+                return NotFound($"Task {id}, not found!");
 
             return Ok(task);
         }
 
         [HttpPost]
-        public ActionResult AddTask(Models.Task task) 
+        public async Task<ActionResult> AddTask(TaskEntity task) 
         {
             if (task is null)
                 return BadRequest();
 
-            var newTask = _taskRepository.CreateTask(task);
+            var newTask = await _unitOfWork.TaskRepository.CreateAsync(task);
+            _unitOfWork.Commit();
             
             return CreatedAtRoute("ObterTask", new { Id = newTask.Id}, newTask);
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult<Models.Task> AtualizaTask(int id, Models.Task task) 
+        public async Task<ActionResult<TaskEntity>> AtualizaTask(int id, TaskEntity task) 
         {
             if (id <= 0 || id != task.Id)
-                return BadRequest();
+                return BadRequest("incompatible ids");
 
-            var updatedTask = _taskRepository.PutTask(task);
+            var updatedTask = await _unitOfWork.TaskRepository.UpdateAsync(task);
+            _unitOfWork.Commit();
 
             return Ok(updatedTask);
                 
         }
 
         [HttpDelete("{id:int}")]
-        public ActionResult<Models.Task> DeleteTask(int id)
+        public async Task<ActionResult<TaskEntity>> DeleteTask(int id)
         {
-            var task = _taskRepository.GetTaskById(id);
+            if (id <= 0)
+                return BadRequest($"Invalid task id.");
 
-            if (task == null || id <= 0)
-                return NotFound($"Task of {id}, not found!");
+            var task = await _unitOfWork.TaskRepository.GetAsync(p => p.Id == id);
 
-            var deletedTask = _taskRepository.DeleteTaskById(id);
+            if (task == null)
+                return NotFound($"Task {id}, not found!");
+
+            var deletedTask = await _unitOfWork.TaskRepository.SoftDeleteAsync(task);
+            _unitOfWork.Commit();
 
             return deletedTask;
         }
