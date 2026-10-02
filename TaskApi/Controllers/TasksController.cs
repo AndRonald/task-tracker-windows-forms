@@ -21,14 +21,10 @@ namespace TaskApi.Controllers
         public async Task<ActionResult<IEnumerable<TaskEntity>>> AllTasks() 
         {
             var tasks = await _unitOfWork.TaskRepository.GetAllAsync();
-
-            if (tasks is null)
-                return NotFound("Tasks not found!");
-
             return Ok(tasks);
         }
 
-        [HttpGet("{id:int}", Name = "ObterTask")]
+        [HttpGet("{id:int}", Name = "GetTask")]
         public async Task<ActionResult<TaskEntity>> TaskById(int id) 
         {
             var task = await _unitOfWork.TaskRepository.GetAsync(p => p.Id == id);
@@ -46,19 +42,19 @@ namespace TaskApi.Controllers
                 return BadRequest();
 
             var newTask = await _unitOfWork.TaskRepository.CreateAsync(task);
-            _unitOfWork.Commit();
+            await _unitOfWork.Commit();
             
-            return CreatedAtRoute("ObterTask", new { Id = newTask.Id}, newTask);
+            return CreatedAtRoute("GetTask", new { Id = newTask.Id}, newTask);
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<TaskEntity>> AtualizaTask(int id, TaskEntity task) 
+        public async Task<ActionResult<TaskEntity>> UpdateTask(int id, TaskEntity task) 
         {
             if (id <= 0 || id != task.Id)
                 return BadRequest("incompatible ids");
 
             var updatedTask = await _unitOfWork.TaskRepository.UpdateAsync(task);
-            _unitOfWork.Commit();
+            await _unitOfWork.Commit();
 
             return Ok(updatedTask);
                 
@@ -76,9 +72,9 @@ namespace TaskApi.Controllers
                 return NotFound($"Task {id}, not found!");
 
             var deletedTask = await _unitOfWork.TaskRepository.SoftDeleteAsync(task);
-            _unitOfWork.Commit();
+            await _unitOfWork.Commit();
 
-            return deletedTask;
+            return NoContent();
         }
     }
 }
