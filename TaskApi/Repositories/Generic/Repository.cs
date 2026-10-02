@@ -15,7 +15,7 @@ namespace TaskApi.Repositories.Generic
 
         public async Task<IEnumerable<T>> GetAllAsync() 
         {
-            return await _taskDbContext.Set<T>().Where(x => x.IsDeleted == false).ToListAsync();
+            return await _taskDbContext.Set<T>().ToListAsync();
         }
 
         public async Task<T?> GetAsync(Expression<Func<T, bool>> predicate) 
@@ -29,7 +29,7 @@ namespace TaskApi.Repositories.Generic
             return entity;
         }
 
-        public async Task<T> UpdateAsync(T entity) 
+        public T Update(T entity) 
         {
             _taskDbContext.Set<T>().Update(entity);
             return entity;

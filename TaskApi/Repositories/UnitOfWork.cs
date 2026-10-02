@@ -4,7 +4,7 @@ namespace TaskApi.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private ITaskRepository _taskRepository;
+        private ITaskRepository? _taskRepository;
         public TaskDbContext taskContext;
 
         public UnitOfWork(TaskDbContext context) 
@@ -16,19 +16,13 @@ namespace TaskApi.Repositories
         {
             get
             {
-                return _taskRepository ?? new TaskRepository(this.taskContext);
+                return _taskRepository ??= new TaskRepository(taskContext);
             }
         }
 
-        public void Commit() 
+        public async Task Commit() 
         {
-            this.taskContext.SaveChangesAsync();
+            await taskContext.SaveChangesAsync();
         }
-
-        public void Dispose() 
-        {
-            this.taskContext.Dispose();
-        }
-
     }
 }
