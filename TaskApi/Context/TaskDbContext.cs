@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TaskEntity = TaskApi.Models.Task;
 
 namespace TaskApi.Context
 {
@@ -9,5 +10,10 @@ namespace TaskApi.Context
         }
 
         public DbSet<Models.Task>? Tasks { get; set; } 
+    
+        protected override void OnModelCreating(ModelBuilder modelBuilder) 
+        {
+            modelBuilder.Entity<TaskEntity>(entity => entity.HasQueryFilter(e => !e.IsDeleted));
+        }
     }
 }
