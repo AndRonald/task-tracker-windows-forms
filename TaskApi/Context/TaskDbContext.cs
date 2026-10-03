@@ -9,7 +9,7 @@ namespace TaskApi.Context
         {
         }
 
-        public DbSet<Models.Task>? Tasks { get; set; } 
+        public DbSet<TaskEntity>? Tasks { get; set; } 
     
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
