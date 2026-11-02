@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using TaskApi.Models;
 using TaskEntity = TaskApi.Models.Task;
 
 namespace TaskApi.Context
@@ -9,11 +11,12 @@ namespace TaskApi.Context
         {
         }
 
-        public DbSet<TaskEntity>? Tasks { get; set; } 
-    
+        public DbSet<TaskEntity> Tasks { get; set; } 
+        public DbSet<User> User { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
-            modelBuilder.Entity<TaskEntity>(entity => entity.HasQueryFilter(e => !e.IsDeleted));
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }

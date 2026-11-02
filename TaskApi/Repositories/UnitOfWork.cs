@@ -5,6 +5,7 @@ namespace TaskApi.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private ITaskRepository? _taskRepository;
+        private IUserRepository? _userRepository;
         public TaskDbContext taskContext;
 
         public UnitOfWork(TaskDbContext context) 
@@ -20,7 +21,15 @@ namespace TaskApi.Repositories
             }
         }
 
-        public async Task Commit() 
+        public IUserRepository UserRepository 
+        {
+            get
+            {
+                return _userRepository ??= new UserRepository(taskContext);
+            }
+        }
+
+        public async Task CommitAsync() 
         {
             await taskContext.SaveChangesAsync();
         }
