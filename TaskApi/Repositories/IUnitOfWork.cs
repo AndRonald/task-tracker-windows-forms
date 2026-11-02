@@ -3,6 +3,7 @@
     public interface IUnitOfWork
     {
         ITaskRepository TaskRepository { get; }
-        Task Commit();
+        IUserRepository UserRepository { get; }
+        Task CommitAsync();
     }
 }
